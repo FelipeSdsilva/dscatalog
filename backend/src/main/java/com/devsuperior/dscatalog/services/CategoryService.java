@@ -1,6 +1,7 @@
 package com.devsuperior.dscatalog.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,19 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public List<CategoryDTO> findAll() {
 		List<Category> list = repository.findAll();
-		//This form is lambda convert entity in DTO
+		// This form is lambda convert entity in DTO
 		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
-		/* this is formal convert object in DTO
-		List<CategoryDTO> listDto = new ArrayList<>();
-		for(Category cat : list) {
-			listDto.add(new CategoryDTO(cat));
-		}
-		*/
-		
+		/*
+		 * this is formal convert object in DTO List<CategoryDTO> listDto = new
+		 * ArrayList<>(); for(Category cat : list) { listDto.add(new CategoryDTO(cat));
+		 * }
+		 */
+	}
+
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {
+		Optional<Category> obj = repository.findById(id);
+		Category entity = obj.get();
+		return new CategoryDTO(entity);
 	}
 }
