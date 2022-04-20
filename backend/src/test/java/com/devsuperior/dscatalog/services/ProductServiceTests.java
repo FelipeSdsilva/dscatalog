@@ -49,6 +49,7 @@ public class ProductServiceTests {
 	private ProductDTO dto;
 	private Category category;
 
+	@SuppressWarnings("deprecation")
 	@BeforeEach
 	void setUp() throws Exception {
 
@@ -135,6 +136,7 @@ public class ProductServiceTests {
 		Mockito.verify(repository, Mockito.times(1)).findById(nonExistingId);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void updateShouldReturnProductDtoWhenIdExist() {
 	
@@ -143,11 +145,13 @@ public class ProductServiceTests {
 		Assertions.assertNotNull(result);
 		Mockito.verify(repository, Mockito.times(1)).getOne(existingId);
 	}
-	
+		
+	@SuppressWarnings("deprecation")
 	@Test
 	public void updateShouldResourceNotFoundExceptionWhenIdDoesNotExist() {
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			
+			@SuppressWarnings("unused")
 			ProductDTO result = service.update(nonExistingId, dto);
 		});
 		Mockito.verify(repository, Mockito.times(1)).getOne(nonExistingId);

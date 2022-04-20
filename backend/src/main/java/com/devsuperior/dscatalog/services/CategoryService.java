@@ -64,7 +64,7 @@ public class CategoryService {
 		}
 	}
 
-	public Object delete(Long id) {
+	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
@@ -72,6 +72,5 @@ public class CategoryService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity Violantion");
 		}
-		return null;
 	}
 }
