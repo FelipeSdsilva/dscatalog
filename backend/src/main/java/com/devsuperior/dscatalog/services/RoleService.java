@@ -8,6 +8,7 @@ import com.devsuperior.dscatalog.repositories.RoleRepository;
 @Service
 public class RoleService {
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private RoleRepository repository;
 }

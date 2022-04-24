@@ -10,6 +10,7 @@ import com.devsuperior.dscatalog.services.RoleService;
 @RequestMapping()
 public class RoleResource {
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private RoleService service;
 }
