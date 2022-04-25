@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.services.validation;
+package com.devsuperior.dscatalog.services.validations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.devsuperior.dscatalog.dto.UserInsertDTO;
 import com.devsuperior.dscatalog.entities.User;
 import com.devsuperior.dscatalog.repositories.UserRepository;
-import com.devsuperior.dscatalog.resources.exceptons.FieldMessage;
+import com.devsuperior.dscatalog.resources.exceptions.FieldMessage;
 
 public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserInsertDTO> {
 	

@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.services.validation;
+package com.devsuperior.dscatalog.services.validations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,11 +8,11 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Constraint(validatedBy = UserUpdateValidator.class)
+@Constraint(validatedBy = UserInsertValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 
-public @interface UserUpdateValid {
+public @interface UserInsertValid {
 	String message() default "Validation error";
 
 	Class<?>[] groups() default {};
