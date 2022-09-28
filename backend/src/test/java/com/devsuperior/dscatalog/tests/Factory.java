@@ -22,7 +22,7 @@ public class Factory {
 	}
 
 	public static Category createCategory() {
-		return new Category(2L, "Electronics");
+		return new Category(1L, "Electronics");
 	}
 
 	public static CategoryDTO createCategoryDTO() {

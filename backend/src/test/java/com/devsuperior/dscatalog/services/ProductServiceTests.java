@@ -54,7 +54,7 @@ public class ProductServiceTests {
 	void setUp() throws Exception {
 
 		existingId = 1L;
-		nonExistingId = 10L;
+		nonExistingId = 2L;
 		dependentId = 4L;
 		product = Factory.createProduct();
 		category = Factory.createCategory();

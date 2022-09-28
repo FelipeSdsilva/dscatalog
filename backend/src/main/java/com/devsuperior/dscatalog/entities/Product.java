@@ -121,8 +121,5 @@ public class Product implements Serializable {
 			return false;
 		Product other = (Product) obj;
 		return Objects.equals(id, other.id);
-	}
-	
-	
-	
+	}	
 }

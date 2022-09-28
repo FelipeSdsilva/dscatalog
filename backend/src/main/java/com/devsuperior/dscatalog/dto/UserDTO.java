@@ -22,6 +22,7 @@ public class UserDTO implements Serializable {
 	private String email;
 	
 	Set<RoleDTO> roles = new HashSet<>();
+	
 	public UserDTO() {
 	}
 

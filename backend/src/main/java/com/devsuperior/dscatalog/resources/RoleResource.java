@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.devsuperior.dscatalog.services.RoleService;
 
 @RestController
-@RequestMapping()
 public class RoleResource {
 
 	@SuppressWarnings("unused")
