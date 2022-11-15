@@ -34,7 +34,7 @@ public class ProductService {
 	public Page<ProductDTO> findAllPaged(Pageable pageable) {
 		Page<Product> list = repository.findAll(pageable);
 		// This form is lambda convert entity in DTO
-		return list.map(x -> new ProductDTO(x));
+		return list.map(x -> new ProductDTO(x, x.getCategories()));
 		/*
 		 * this is formal convert object in DTO List<ProductDTO> listDto = new
 		 * ArrayList<>(); for(Product cat : list) { listDto.add(new ProductDTO(cat)); }
