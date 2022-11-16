@@ -1,2 +1,2 @@
 # DSCatalog.
-This is a project whe i initialize in bootcamp of DevSuperior, i had a dream and not desist, my focus is developer fullStack
+This is a project I start in DevSuperior's bootcamp,aiming to be a frontend and backend monorepoo , i had a dream and not desist, my focus is fullStack developer.
