@@ -96,8 +96,7 @@ public class UserService implements UserDetailsService{
 
 		entity.getRoles().clear();
 		for (RoleDTO roleDto : dto.getRoles()) {
-			@SuppressWarnings("deprecation")
-			Role role = roleRepository.getOne(roleDto.getId());
+			Role role = roleRepository.getReferenceById(roleDto.getId());
 			entity.getRoles().add(role);
 		}
 	}
