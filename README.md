@@ -1,5 +1,5 @@
 # DSCatalog.
-This is a project I start in DevSuperior's bootcamp, aiming to be a frontend and backend monorepoo , i had a dream and not desist, my focus is fullStack developer.
+This is a project I start in DevSuperior's bootcamp, he consisting in CRUD of , aiming to be a frontend and backend monorepo , i have a dream and not desist, my focus is fullStack developer.
 
 
 
