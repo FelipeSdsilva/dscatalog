@@ -5,7 +5,9 @@ This is a project I start in DevSuperior's bootcamp, aiming to be a frontend and
 
 ## Back-End(Felipe Sousa)
   - Java 17
-  - Spring boot
+  - Spring Boot
+  - Spring Security
+  - Outh2
   - JPA / Hibernate
   - Maven
 
