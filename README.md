@@ -1,6 +1,5 @@
 # DSCatalog.
-This is a system , he consisting in CRUD of , aiming to be a frontend and backend monorepo , i have a dream and not desist, my focus is fullStack developer.
-
+A system of token-authenticated product and employee registrations and restrictions on common administrator and user, CRUD functionalities and projections according to the category.
 
 
 ## Back-End(Felipe Sousa)
