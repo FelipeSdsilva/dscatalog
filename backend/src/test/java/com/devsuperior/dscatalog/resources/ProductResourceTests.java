@@ -47,16 +47,21 @@ public class ProductResourceTests {
 	private Long dependentId;
 	private Long nonExistingId;
 	private ProductDTO productDto;
-	private PageImpl<ProductDTO> page;
+
+	public ProductResourceTests(MockMvc mockMvc, ObjectMapper objectMapper, ProductService service) {
+		this.mockMvc = mockMvc;
+		this.objectMapper = objectMapper;
+		this.service = service;
+	}
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		existingId = 1L;
 		nonExistingId = 2L;
 		dependentId = 3L;
 
 		productDto = Factory.createProductDto();
-		page = new PageImpl<>(List.of(productDto));
+		PageImpl<ProductDTO> page = new PageImpl<>(List.of(productDto));
 
 		when(service.findAllPaged(any())).thenReturn(page);
 
@@ -95,7 +100,7 @@ public class ProductResourceTests {
 	}
 
 	@Test
-	public void findByIdShouldReturnNotFoundWhenIdDoesNotExixt() throws Exception {
+	public void findByIdShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 		ResultActions result = 
 				mockMvc.perform(get("/products/{id}", nonExistingId)
 						.accept(MediaType.APPLICATION_JSON));
