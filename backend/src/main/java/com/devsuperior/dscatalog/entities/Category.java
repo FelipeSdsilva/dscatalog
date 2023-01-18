@@ -26,35 +26,40 @@ import javax.persistence.Table;
 @EqualsAndHashCode
 @Table(name = "tb_category")
 public class Category implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant createdAt;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
 
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant updatedAt;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 
-	@ManyToMany(mappedBy = "categories")
-	private Set<Product> products = new HashSet<>();
+    public Category(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Product> products = new HashSet<>();
 
 
-	@PrePersist
-	public void prePersist() {
-		createdAt = Instant.now();
-	}
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+    }
 
-	@PreUpdate
-	public void preUpdate() {
-		updatedAt = Instant.now();
-	}
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
+    }
 
-	public Set<Product> getProducts() {
-		return products;
-	}
+    public Set<Product> getProducts() {
+        return products;
+    }
 }
