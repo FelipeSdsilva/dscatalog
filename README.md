@@ -2,13 +2,14 @@
 A system of token-authenticated product and employee registrations and restrictions on common administrator and user, CRUD functionalities and projections according to the category.
 
 
-## Back-End(Felipe Sousa)
+## Backend(Felipe Sousa)
   - Java 17
   - Spring Boot
   - Spring Security
   - Outh2
   - JPA / Hibernate
   - Maven
+  - Lombok
 
 ## Product implementation
   - Back-End: In progress
@@ -31,7 +32,7 @@ Prerequisite: Java 17.
  #execute the project.
  ./mvnw spring-boot:run
 ```
-## Front-End Web
+## Frontend Web
 
 Prerequisite: Node.
 
