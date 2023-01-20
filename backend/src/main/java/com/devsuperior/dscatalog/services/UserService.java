@@ -2,6 +2,8 @@ package com.devsuperior.dscatalog.services;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.devsuperior.dscatalog.dto.RoleDTO;
+import com.devsuperior.dscatalog.entities.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDTO inset(UserInsertDTO dto) {
         User entity = new User();
-        entity.converterDtoInEntity(dto, entity);
+        converterDtoInEntity(dto, entity);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity = repository.save(entity);
         return new UserDTO(entity);
@@ -59,9 +61,8 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
-            @SuppressWarnings("deprecation")
-            User entity = repository.getOne(id);
-            entity.converterDtoInEntity(dto, entity);
+            User entity = repository.getReferenceById(id);
+            converterDtoInEntity(dto, entity);
             entity = repository.save(entity);
             return new UserDTO(entity);
         } catch (EntityNotFoundException e) {
@@ -79,6 +80,17 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    private void converterDtoInEntity(UserDTO dto, User entity) {
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setEmail(dto.getEmail());
+
+        entity.getRoles().clear();
+        for (RoleDTO roleDto : dto.getRoles()) {
+            Role role = roleRepository.getReferenceById(roleDto.getId());
+            entity.getRoles().add(role);
+        }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
