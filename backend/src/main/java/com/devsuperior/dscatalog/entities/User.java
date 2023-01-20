@@ -35,8 +35,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "tb_user")
 public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
-    @Autowired
-    private static RoleRepository roleRepository;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,18 +50,6 @@ public class User implements UserDetails, Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-
-    public void converterDtoInEntity(UserDTO dto, User entity) {
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setEmail(dto.getEmail());
-
-        entity.getRoles().clear();
-        for (RoleDTO roleDto : dto.getRoles()) {
-            Role role = roleRepository.getReferenceById(roleDto.getId());
-            entity.getRoles().add(role);
-        }
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

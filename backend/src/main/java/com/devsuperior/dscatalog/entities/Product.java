@@ -25,8 +25,6 @@ import java.util.Set;
 public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    @Autowired
-    private static CategoryRepository categoryRepository;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -59,19 +57,6 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
-    }
-
-    public void converterDtoInEntity(ProductDTO dto, Product entity) {
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
-        entity.setImgUrl(dto.getImgUrl());
-
-        entity.getCategories().clear();
-        for (CategoryDTO catDto : dto.getCategories()) {
-            Category category = categoryRepository.getReferenceById(catDto.getId());
-            entity.getCategories().add(category);
-        }
     }
 
     @Override
