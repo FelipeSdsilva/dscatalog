@@ -31,12 +31,10 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
-        //List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getReferenceById(categoryId));
-        //Page<Product> page = repository.find(categories, name, pageable);
-        //repository.findProductsWithCategories(page.getContent());
         List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getReferenceById(categoryId));
-
-        return repository.searchCategoryIdAndProductName(categories, name, pageable).map(x -> new ProductDTO(x, x.getCategories()));
+        Page<Product> page = repository.searchCategoryIdAndProductName(categories, name, pageable);
+        repository.findProductsWithCategories(page.getContent());
+        return page.map(x -> new ProductDTO(x, x.getCategories()));
 
     }
 

@@ -64,7 +64,7 @@ public class ProductResourceIT {
 		String bodyJson = objectMapper.writeValueAsString(productDto);
 	
 		String expectedName = productDto.getName();
-		String expectedDescripiton = productDto.getDescription();
+		String expectedDescription = productDto.getDescription();
 
 		ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
 				.content(bodyJson)
@@ -74,11 +74,11 @@ public class ProductResourceIT {
 		result.andExpect(status().isOk());
 		result.andExpect(jsonPath("$.id").value(existingId));
 		result.andExpect(jsonPath("$.name").value(expectedName));
-		result.andExpect(jsonPath("$.description").value(expectedDescripiton));
+		result.andExpect(jsonPath("$.description").value(expectedDescription));
 	}
 	
 	@Test
-	public void findByIdShouldReturnNotFoundWhenIdDoesNotExixt() throws Exception {
+	public void findByIdShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 		String bodyJson = objectMapper.writeValueAsString(productDto);
 		
 		ResultActions result = 
