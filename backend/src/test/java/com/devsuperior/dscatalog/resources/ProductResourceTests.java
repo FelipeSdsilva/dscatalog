@@ -41,7 +41,7 @@ public class ProductResourceTests {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private TokenUtil tokenUtil;
+  //  private TokenUtil tokenUtil;
 
     @MockBean
     private ProductService service;
@@ -66,7 +66,7 @@ public class ProductResourceTests {
         productDto = Factory.createProductDto();
         PageImpl<ProductDTO> page = new PageImpl<>(List.of(productDto));
 
-        when(service.findAllPaged(any())).thenReturn(page);
+        when(service.findAllPaged(any(), any(), any())).thenReturn(page);
 
         when(service.findById(existingId)).thenReturn(productDto);
         when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
