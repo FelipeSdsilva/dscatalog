@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.devsuperior.dscatalog.tests.TokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,72 +24,81 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureMockMvc
 @Transactional
 public class ProductResourceIT {
-	
-	@Autowired
-	private MockMvc mockMvc;
-	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
 
-	private Long existingId;
-	private Long nonExistingId;
-	private Long contTotalProduct;
-	private ProductDTO productDto;
+    @Autowired
+    private MockMvc mockMvc;
 
-	@BeforeEach
-	void setUp() throws Exception {
-		existingId = 1L;
-		nonExistingId = 1000L;
-		contTotalProduct = 25L;
-		productDto = Factory.createProductDto();
-	}
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	@Test
-	public void findAllShouldReturnSortedPageWhenSortByName() throws Exception{
-		ResultActions result = 
-				mockMvc.perform(get("/products?page=0&size=12&sort=name,asc")
-				.accept(MediaType.APPLICATION_JSON));
-		
-		result.andExpect(status().isOk());
-		result.andExpect(jsonPath("$.totalElements").value(contTotalProduct));
-		result.andExpect(jsonPath("$.content").exists());
-		result.andExpect(jsonPath("$.content[0].name").value("Macbook Pro"));
-		result.andExpect(jsonPath("$.content[1].name").value("PC Gamer"));
-		result.andExpect(jsonPath("$.content[2].name").value("PC Gamer Alfa"));
-		
-	}
-	
-	@Test
-	public void updateShouldReturnProductDtoWhenIdExist() throws Exception{
-		String bodyJson = objectMapper.writeValueAsString(productDto);
-	
-		String expectedName = productDto.getName();
-		String expectedDescription = productDto.getDescription();
+    @Autowired
+    private TokenUtil tokenUtil;
+    private Long existingId;
+    private Long nonExistingId;
+    private Long contTotalProduct;
+    private ProductDTO productDto;
+    private String username;
+    private String password;
 
-		ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
-				.content(bodyJson)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON));
+    @BeforeEach
+    void setUp() throws Exception {
+        username = "maria@gmail.com";
+        password = "123456";
 
-		result.andExpect(status().isOk());
-		result.andExpect(jsonPath("$.id").value(existingId));
-		result.andExpect(jsonPath("$.name").value(expectedName));
-		result.andExpect(jsonPath("$.description").value(expectedDescription));
-	}
-	
-	@Test
-	public void findByIdShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
-		String bodyJson = objectMapper.writeValueAsString(productDto);
-		
-		ResultActions result = 
-				mockMvc.perform(get("/products/{id}", nonExistingId)
-						.content(bodyJson)
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON));
+        existingId = 1L;
+        nonExistingId = 1000L;
+        contTotalProduct = 25L;
+        productDto = Factory.createProductDto();
+    }
 
-		result.andExpect(status().isNotFound());
-	}
-	
-	
+    @Test
+    public void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
+        ResultActions result =
+                mockMvc.perform(get("/products?page=0&size=12&sort=name,asc")
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.totalElements").value(contTotalProduct));
+        result.andExpect(jsonPath("$.content").exists());
+        result.andExpect(jsonPath("$.content[0].name").value("Macbook Pro"));
+        result.andExpect(jsonPath("$.content[1].name").value("PC Gamer"));
+        result.andExpect(jsonPath("$.content[2].name").value("PC Gamer Alfa"));
+
+    }
+
+    @Test
+    public void updateShouldReturnProductDtoWhenIdExist() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+        String bodyJson = objectMapper.writeValueAsString(productDto);
+        String expectedName = productDto.getName();
+        String expectedDescription = productDto.getDescription();
+
+        ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
+                .header("Authorization", "Bearer " + accessToken)
+                .content(bodyJson)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.id").value(existingId));
+        result.andExpect(jsonPath("$.name").value(expectedName));
+        result.andExpect(jsonPath("$.description").value(expectedDescription));
+    }
+
+    @Test
+    public void findByIdShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+        String bodyJson = objectMapper.writeValueAsString(productDto);
+
+        ResultActions result =
+                mockMvc.perform(get("/products/{id}", nonExistingId)
+                        .header("Authorization", "Bearer " + accessToken)
+                        .content(bodyJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isNotFound());
+    }
+
+
 }
