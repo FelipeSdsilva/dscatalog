@@ -51,7 +51,6 @@ public class ProductServiceTests {
     private ProductDTO dto;
     private Category category;
 
-    @SuppressWarnings("deprecation")
     @BeforeEach
     void setUp() throws Exception {
 
@@ -71,8 +70,8 @@ public class ProductServiceTests {
         Mockito.when(repository.searchCategoryIdAndProductName(any(), any(), any())).thenReturn(page);
         Mockito.doThrow(ResourceNotFoundException.class).when(repository).findById(nonExistingId);
         // update
-        Mockito.when(repository.getOne(existingId)).thenReturn(product);
-        Mockito.when(repository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
+        Mockito.when(repository.getReferenceById(existingId)).thenReturn(product);
+        Mockito.when(repository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
 
         Mockito.when(categoryRepository.getOne(existingId)).thenReturn(category);
         Mockito.when(categoryRepository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
@@ -138,7 +137,7 @@ public class ProductServiceTests {
         Mockito.verify(repository, Mockito.times(1)).findById(nonExistingId);
     }
 
-    @SuppressWarnings("deprecation")
+
     @Test
     public void updateShouldReturnProductDtoWhenIdExist() {
 
@@ -148,7 +147,7 @@ public class ProductServiceTests {
         Mockito.verify(repository, Mockito.times(1)).getReferenceById(existingId);
     }
 
-    @SuppressWarnings("deprecation")
+
     @Test
     public void updateShouldResourceNotFoundExceptionWhenIdDoesNotExist() {
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
