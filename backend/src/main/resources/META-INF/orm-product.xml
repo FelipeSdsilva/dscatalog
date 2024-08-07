@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_3_0.xsd"
+        version="1.0">
+
+    <named-query name="findAllProductsWithCategories">
+        <query>
+            SELECT p FROM Product p JOIN FETCH p.categories
+        </query>
+    </named-query>
+
+    <named-query name="paginationAllProductsAndSearchPerName">
+        <query>
+            SELECT p FROM Product p WHERE p.name LIKE CONCAT(UPPER(:name),'%')
+        </query>
+    </named-query>
+
+</entity-mappings>
