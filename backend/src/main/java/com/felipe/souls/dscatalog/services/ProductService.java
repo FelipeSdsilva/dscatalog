@@ -4,7 +4,6 @@ import com.felipe.souls.dscatalog.dto.CategoryDTO;
 import com.felipe.souls.dscatalog.dto.ProductDTO;
 import com.felipe.souls.dscatalog.entities.Category;
 import com.felipe.souls.dscatalog.entities.Product;
-import com.felipe.souls.dscatalog.mapper.ProductMapper;
 import com.felipe.souls.dscatalog.repositories.CategoryRepository;
 import com.felipe.souls.dscatalog.repositories.ProductRepository;
 import com.felipe.souls.dscatalog.services.exceptions.DatabaseException;
@@ -27,8 +26,6 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    private ProductMapper productMapper = new ProductMapper();
-
     @Transactional(readOnly = true)
     public Page<ProductDTO> allProductsPaginated(Pageable pageable) {
         return productRepository.findAllProductsWithCategories(pageable).map(product -> new ProductDTO(product, product.getCategories()));
@@ -47,8 +44,7 @@ public class ProductService {
     @Transactional
     public ProductDTO insertNewProduct(ProductDTO productDTO) {
         Product product = new Product();
-        product = productMapper.toEntity(productDTO, Product.class);
-        insertAndUpdateCategoriesInProduct(productDTO, product);
+        copyDtoToEntity(productDTO, product);
         product = productRepository.save(product);
         return new ProductDTO(product, product.getCategories());
     }
@@ -56,13 +52,10 @@ public class ProductService {
     @Transactional
     public ProductDTO updateProductPerId(Long id, ProductDTO productDTO) {
         try {
-            Product product = new Product();
-            product = productRepository.getReferenceById(id);
-            productDTO.setId(product.getId());
-            productMapper.updateFromDto(productDTO, product);
-            insertAndUpdateCategoriesInProduct(productDTO, product);
-            productRepository.save(product);
-            return new ProductDTO(product, product.getCategories());
+            Product product = productRepository.getReferenceById(id);
+            copyDtoToEntity(productDTO, product);
+            product = productRepository.save(product);
+            return new ProductDTO(product);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id: " + id + " not found!");
         }
@@ -79,7 +72,14 @@ public class ProductService {
         }
     }
 
-    private void insertAndUpdateCategoriesInProduct(ProductDTO productDTO, Product product) {
+    private void copyDtoToEntity(ProductDTO productDTO, Product product) {
+
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setDate(productDTO.getDate());
+        product.setImgUrl(productDTO.getImgUrl());
+        product.setPrice(productDTO.getPrice());
+
         product.getCategories().clear();
         for (CategoryDTO categoryDTO : productDTO.getCategories()) {
             Category category = categoryRepository.getReferenceById(categoryDTO.getId());

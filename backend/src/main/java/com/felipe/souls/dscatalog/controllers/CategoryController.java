@@ -19,7 +19,6 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<CategoryDTO>> getCategoryPerPaged() {
         return ResponseEntity.ok(categoryService.retrieverAllCategories());
     }

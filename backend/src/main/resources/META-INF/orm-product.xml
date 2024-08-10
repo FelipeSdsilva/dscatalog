@@ -7,7 +7,13 @@
 
     <named-query name="findAllProductsWithCategories">
         <query>
-            SELECT p FROM Product p JOIN FETCH p.categories
+            <![CDATA[
+                SELECT
+                    p
+                FROM
+                    Product p
+                JOIN FETCH p.categories
+             ]]>
         </query>
     </named-query>
 

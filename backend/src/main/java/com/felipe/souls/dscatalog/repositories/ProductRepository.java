@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(name = "findAllProductsWithCategories")
+    @Query("SELECT p FROM Product p JOIN FETCH p.categories")
     Page<Product> findAllProductsWithCategories(Pageable pageable);
 
-    @Query(name = "paginationAllProductsAndSearchPerName")
+    @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT(UPPER(:name),'%')")
     Page<Product> paginationAllProductsAndSearchPerName(String name, Pageable pageable);
 }
